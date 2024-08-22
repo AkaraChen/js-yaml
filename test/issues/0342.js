@@ -1,8 +1,8 @@
-'use strict';
 
 
-var assert = require('assert');
-var yaml = require('../../');
+
+import assert from 'assert';
+import * as yaml from '../../index.js';
 var simpleArray = [ 'a', 'b' ];
 var arrayOfSimpleObj = [ { a: 1 }, { b: 2 } ];
 var arrayOfObj = [ { a: 1, b: 'abc' }, { c: 'def', d: 2 } ];

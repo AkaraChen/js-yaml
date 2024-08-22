@@ -1,7 +1,7 @@
-'use strict';
 
-var assert = require('assert');
-var yaml = require('../../');
+
+import assert from 'assert';
+import * as yaml from '../../index.js';
 
 
 it('should not emit spaces in arrays in flow mode between entries using condenseFlow: true', function () {

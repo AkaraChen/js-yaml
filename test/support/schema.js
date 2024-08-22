@@ -1,8 +1,8 @@
-'use strict';
 
 
-var util = require('util');
-var yaml = require('../../');
+
+import util from 'util';
+import * as yaml from '../../index.js';
 
 
 function Tag1(parameters) {
@@ -107,8 +107,8 @@ var TEST_SCHEMA = yaml.DEFAULT_SCHEMA.extend([
 ]);
 
 
-module.exports.Tag1 = Tag1;
-module.exports.Tag2 = Tag2;
-module.exports.Tag3 = Tag3;
-module.exports.Foo = Foo;
-module.exports.TEST_SCHEMA = TEST_SCHEMA;
+export { Tag1 };
+export { Tag2 };
+export { Tag3 };
+export { Foo };
+export { TEST_SCHEMA };

@@ -1,7 +1,7 @@
-'use strict';
 
-var assert = require('assert');
-var yaml   = require('../..');
+
+import assert from 'assert';
+import * as yaml from '../../index.js';
 
 // Indents lines by 2 spaces. Empty lines (\n only) are not indented.
 function indent(string) {

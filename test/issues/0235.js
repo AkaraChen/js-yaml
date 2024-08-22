@@ -1,7 +1,7 @@
-'use strict';
 
-var assert = require('assert');
-var yaml = require('../../');
+
+import assert from 'assert';
+import * as yaml from '../../index.js';
 
 it('Flow style does not dump with block literals.', function () {
   assert.strictEqual(yaml.dump({ a: '\n' }, { flowLevel: 0 }), '{a: "\\n"}\n');

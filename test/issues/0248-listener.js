@@ -1,7 +1,7 @@
-'use strict';
 
-var assert = require('assert');
-var yaml = require('../../');
+
+import assert from 'assert';
+import * as yaml from '../../index.js';
 
 it('Listener informed on a very simple scalar.', function () {
   var history = [];

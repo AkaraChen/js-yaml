@@ -1,25 +1,24 @@
-#!/usr/bin/env node
-
-'use strict';
+#!/usr/bin/env node;
 
 /*eslint-disable no-console*/
 
-var path      = require('path');
-var fs        = require('fs');
-var util      = require('util');
-var Benchmark = require('benchmark');
-var ansi      = require('ansi');
+import path from 'path';
+
+import fs from 'fs';
+import util from 'util';
+import Benchmark from 'benchmark';
+import ansi from 'ansi';
+
 var cursor    = ansi(process.stdout);
 
-
-var IMPLS_DIRECTORY = path.join(__dirname, 'implementations');
+var IMPLS_DIRECTORY = path.join(import.meta.dirname, 'implementations');
 var IMPLS_PATHS = {};
 var IMPLS = [];
 
 
-fs.readdirSync(IMPLS_DIRECTORY).sort().forEach(function (name) {
+fs.readdirSync(IMPLS_DIRECTORY).sort().forEach(async function (name) {
   var file = path.join(IMPLS_DIRECTORY, name);
-  var code = require(file);
+  var code = await import(file);
 
   IMPLS_PATHS[name] = file;
   IMPLS.push({
@@ -29,7 +28,7 @@ fs.readdirSync(IMPLS_DIRECTORY).sort().forEach(function (name) {
 });
 
 
-var SAMPLES_DIRECTORY = path.join(__dirname, 'samples');
+var SAMPLES_DIRECTORY = path.join(import.meta.dirname, 'samples');
 var SAMPLES = [];
 
 

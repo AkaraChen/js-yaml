@@ -1,3 +1,3 @@
-'use strict';
 
-module.exports = '\udd00';
+
+export default '\udd00';

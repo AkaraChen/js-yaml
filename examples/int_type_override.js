@@ -1,13 +1,14 @@
 // This example overrides built-in !!int type to return BigInt instead of a Number
 //
 
-'use strict';
+
 
 /*global BigInt*/
 /*eslint-disable no-console*/
 
-const util = require('util');
-const yaml = require('../');
+import util from 'util';
+
+import * as yaml from '../index.js';
 
 
 // keep most of the original `int` options as is

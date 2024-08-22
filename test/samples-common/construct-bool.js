@@ -1,6 +1,6 @@
-'use strict';
 
-module.exports = {
+
+export default {
   valid_true: [ true, true, true ],
   valid_false: [ false, false, false ],
   deprecated_true: [ 'y', 'Y', 'yes', 'Yes', 'YES', 'on', 'On', 'ON' ],

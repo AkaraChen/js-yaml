@@ -1,6 +1,6 @@
-'use strict';
 
-module.exports = [
+
+export default [
   new Date(Date.UTC(2001, 11, 15, 3, 29, 43, 100)),
   new Date(Date.UTC(2001, 11, 14, 16, 29, 43, 100)),
   new Date(Date.UTC(2001, 11, 14, 21, 59, 43, 1)),

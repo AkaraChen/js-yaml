@@ -6,12 +6,6 @@
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.jsyaml = {}));
 })(this, (function (exports) { 'use strict';
 
-  var jsYaml = {};
-
-  var loader$1 = {};
-
-  var common$5 = {};
-
   function isNothing(subject) {
     return (typeof subject === 'undefined') || (subject === null);
   }
@@ -19,30 +13,6 @@
 
   function isObject(subject) {
     return (typeof subject === 'object') && (subject !== null);
-  }
-
-
-  function toArray(sequence) {
-    if (Array.isArray(sequence)) return sequence;
-    else if (isNothing(sequence)) return [];
-
-    return [ sequence ];
-  }
-
-
-  function extend(target, source) {
-    var index, length, key, sourceKeys;
-
-    if (source) {
-      sourceKeys = Object.keys(source);
-
-      for (index = 0, length = sourceKeys.length; index < length; index += 1) {
-        key = sourceKeys[index];
-        target[key] = source[key];
-      }
-    }
-
-    return target;
   }
 
 
@@ -61,13 +31,10 @@
     return (number === 0) && (Number.NEGATIVE_INFINITY === 1 / number);
   }
 
+  // YAML error class. http://stackoverflow.com/questions/8458984
+  //
 
-  common$5.isNothing      = isNothing;
-  common$5.isObject       = isObject;
-  common$5.toArray        = toArray;
-  common$5.repeat         = repeat;
-  common$5.isNegativeZero = isNegativeZero;
-  common$5.extend         = extend;
+
 
   function formatError(exception, compact) {
     var where = '', message = exception.reason || '(unknown reason)';
@@ -88,7 +55,7 @@
   }
 
 
-  function YAMLException$5(reason, mark) {
+  function YAMLException(reason, mark) {
     // Super constructor
     Error.call(this);
 
@@ -109,19 +76,13 @@
 
 
   // Inherit from Error
-  YAMLException$5.prototype = Object.create(Error.prototype);
-  YAMLException$5.prototype.constructor = YAMLException$5;
+  YAMLException.prototype = Object.create(Error.prototype);
+  YAMLException.prototype.constructor = YAMLException;
 
 
-  YAMLException$5.prototype.toString = function toString(compact) {
+  YAMLException.prototype.toString = function toString(compact) {
     return this.name + ': ' + formatError(this, compact);
   };
-
-
-  var exception = YAMLException$5;
-
-  var common$4 = common$5;
-
 
   // get snippet for a single line, respecting maxLength
   function getLine(buffer, lineStart, lineEnd, position, maxLineLength) {
@@ -147,11 +108,11 @@
 
 
   function padStart(string, max) {
-    return common$4.repeat(' ', max - string.length) + string;
+    return repeat(' ', max - string.length) + string;
   }
 
 
-  function makeSnippet$1(mark, options) {
+  function makeSnippet(mark, options) {
     options = Object.create(options || null);
 
     if (!mark.buffer) return null;
@@ -191,14 +152,14 @@
         mark.position - (lineStarts[foundLineNo] - lineStarts[foundLineNo - i]),
         maxLineLength
       );
-      result = common$4.repeat(' ', options.indent) + padStart((mark.line - i + 1).toString(), lineNoLength) +
+      result = repeat(' ', options.indent) + padStart((mark.line - i + 1).toString(), lineNoLength) +
         ' | ' + line.str + '\n' + result;
     }
 
     line = getLine(mark.buffer, lineStarts[foundLineNo], lineEnds[foundLineNo], mark.position, maxLineLength);
-    result += common$4.repeat(' ', options.indent) + padStart((mark.line + 1).toString(), lineNoLength) +
+    result += repeat(' ', options.indent) + padStart((mark.line + 1).toString(), lineNoLength) +
       ' | ' + line.str + '\n';
-    result += common$4.repeat('-', options.indent + lineNoLength + 3 + line.pos) + '^' + '\n';
+    result += repeat('-', options.indent + lineNoLength + 3 + line.pos) + '^' + '\n';
 
     for (i = 1; i <= options.linesAfter; i++) {
       if (foundLineNo + i >= lineEnds.length) break;
@@ -209,17 +170,12 @@
         mark.position - (lineStarts[foundLineNo] - lineStarts[foundLineNo + i]),
         maxLineLength
       );
-      result += common$4.repeat(' ', options.indent) + padStart((mark.line + i + 1).toString(), lineNoLength) +
+      result += repeat(' ', options.indent) + padStart((mark.line + i + 1).toString(), lineNoLength) +
         ' | ' + line.str + '\n';
     }
 
     return result.replace(/\n$/, '');
   }
-
-
-  var snippet = makeSnippet$1;
-
-  var YAMLException$4 = exception;
 
   var TYPE_CONSTRUCTOR_OPTIONS = [
     'kind',
@@ -254,12 +210,12 @@
     return result;
   }
 
-  function Type$f(tag, options) {
+  function Type(tag, options) {
     options = options || {};
 
     Object.keys(options).forEach(function (name) {
       if (TYPE_CONSTRUCTOR_OPTIONS.indexOf(name) === -1) {
-        throw new YAMLException$4('Unknown option "' + name + '" is met in definition of "' + tag + '" YAML type.');
+        throw new YAMLException('Unknown option "' + name + '" is met in definition of "' + tag + '" YAML type.');
       }
     });
 
@@ -278,17 +234,9 @@
     this.styleAliases  = compileStyleAliases(options['styleAliases'] || null);
 
     if (YAML_NODE_KINDS.indexOf(this.kind) === -1) {
-      throw new YAMLException$4('Unknown kind "' + this.kind + '" is specified for "' + tag + '" YAML type.');
+      throw new YAMLException('Unknown kind "' + this.kind + '" is specified for "' + tag + '" YAML type.');
     }
   }
-
-  var type = Type$f;
-
-  /*eslint-disable max-len*/
-
-  var YAMLException$3 = exception;
-  var Type$e          = type;
-
 
   function compileList(schema, name) {
     var result = [];
@@ -342,16 +290,16 @@
   }
 
 
-  function Schema$2(definition) {
+  function Schema(definition) {
     return this.extend(definition);
   }
 
 
-  Schema$2.prototype.extend = function extend(definition) {
+  Schema.prototype.extend = function extend(definition) {
     var implicit = [];
     var explicit = [];
 
-    if (definition instanceof Type$e) {
+    if (definition instanceof Type) {
       // Schema.extend(type)
       explicit.push(definition);
 
@@ -365,31 +313,31 @@
       if (definition.explicit) explicit = explicit.concat(definition.explicit);
 
     } else {
-      throw new YAMLException$3('Schema.extend argument should be a Type, [ Type ], ' +
+      throw new YAMLException('Schema.extend argument should be a Type, [ Type ], ' +
         'or a schema definition ({ implicit: [...], explicit: [...] })');
     }
 
     implicit.forEach(function (type) {
-      if (!(type instanceof Type$e)) {
-        throw new YAMLException$3('Specified list of YAML types (or a single Type object) contains a non-Type object.');
+      if (!(type instanceof Type)) {
+        throw new YAMLException('Specified list of YAML types (or a single Type object) contains a non-Type object.');
       }
 
       if (type.loadKind && type.loadKind !== 'scalar') {
-        throw new YAMLException$3('There is a non-scalar type in the implicit list of a schema. Implicit resolving of such types is not supported.');
+        throw new YAMLException('There is a non-scalar type in the implicit list of a schema. Implicit resolving of such types is not supported.');
       }
 
       if (type.multi) {
-        throw new YAMLException$3('There is a multi type in the implicit list of a schema. Multi tags can only be listed as explicit.');
+        throw new YAMLException('There is a multi type in the implicit list of a schema. Multi tags can only be listed as explicit.');
       }
     });
 
     explicit.forEach(function (type) {
-      if (!(type instanceof Type$e)) {
-        throw new YAMLException$3('Specified list of YAML types (or a single Type object) contains a non-Type object.');
+      if (!(type instanceof Type)) {
+        throw new YAMLException('Specified list of YAML types (or a single Type object) contains a non-Type object.');
       }
     });
 
-    var result = Object.create(Schema$2.prototype);
+    var result = Object.create(Schema.prototype);
 
     result.implicit = (this.implicit || []).concat(implicit);
     result.explicit = (this.explicit || []).concat(explicit);
@@ -401,42 +349,32 @@
     return result;
   };
 
-
-  var schema = Schema$2;
-
-  var Type$d = type;
-
-  var str = new Type$d('tag:yaml.org,2002:str', {
+  var str = new Type('tag:yaml.org,2002:str', {
     kind: 'scalar',
     construct: function (data) { return data !== null ? data : ''; }
   });
 
-  var Type$c = type;
-
-  var seq = new Type$c('tag:yaml.org,2002:seq', {
+  var seq = new Type('tag:yaml.org,2002:seq', {
     kind: 'sequence',
     construct: function (data) { return data !== null ? data : []; }
   });
 
-  var Type$b = type;
-
-  var map = new Type$b('tag:yaml.org,2002:map', {
+  var map = new Type('tag:yaml.org,2002:map', {
     kind: 'mapping',
     construct: function (data) { return data !== null ? data : {}; }
   });
 
-  var Schema$1 = schema;
+  // Standard YAML's Failsafe schema.
+  // http://www.yaml.org/spec/1.2/spec.html#id2802346
 
 
-  var failsafe = new Schema$1({
+  var failsafe = new Schema({
     explicit: [
       str,
       seq,
       map
     ]
   });
-
-  var Type$a = type;
 
   function resolveYamlNull(data) {
     if (data === null) return true;
@@ -455,7 +393,7 @@
     return object === null;
   }
 
-  var _null = new Type$a('tag:yaml.org,2002:null', {
+  var nullType = new Type('tag:yaml.org,2002:null', {
     kind: 'scalar',
     resolve: resolveYamlNull,
     construct: constructYamlNull,
@@ -469,8 +407,6 @@
     },
     defaultStyle: 'lowercase'
   });
-
-  var Type$9 = type;
 
   function resolveYamlBoolean(data) {
     if (data === null) return false;
@@ -491,7 +427,7 @@
     return Object.prototype.toString.call(object) === '[object Boolean]';
   }
 
-  var bool = new Type$9('tag:yaml.org,2002:bool', {
+  var bool = new Type('tag:yaml.org,2002:bool', {
     kind: 'scalar',
     resolve: resolveYamlBoolean,
     construct: constructYamlBoolean,
@@ -504,21 +440,18 @@
     defaultStyle: 'lowercase'
   });
 
-  var common$3 = common$5;
-  var Type$8   = type;
-
   function isHexCode(c) {
-    return ((0x30/* 0 */ <= c) && (c <= 0x39/* 9 */)) ||
-           ((0x41/* A */ <= c) && (c <= 0x46/* F */)) ||
-           ((0x61/* a */ <= c) && (c <= 0x66/* f */));
+    return ((0x30/* 0 */ <= c) && ((c <= 0x39)/* 9 */)) ||
+           ((0x41/* A */ <= c) && ((c <= 0x46)/* F */)) ||
+           ((0x61/* a */ <= c) && ((c <= 0x66)/* f */));
   }
 
   function isOctCode(c) {
-    return ((0x30/* 0 */ <= c) && (c <= 0x37/* 7 */));
+    return ((0x30/* 0 */ <= c) && (c <= 0x37))/* 7 */;
   }
 
   function isDecCode(c) {
-    return ((0x30/* 0 */ <= c) && (c <= 0x39/* 9 */));
+    return ((0x30/* 0 */ <= c) && (c <= 0x39))/* 9 */;
   }
 
   function resolveYamlInteger(data) {
@@ -635,10 +568,10 @@
 
   function isInteger(object) {
     return (Object.prototype.toString.call(object)) === '[object Number]' &&
-           (object % 1 === 0 && !common$3.isNegativeZero(object));
+           (object % 1 === 0 && !isNegativeZero(object));
   }
 
-  var int = new Type$8('tag:yaml.org,2002:int', {
+  var int = new Type('tag:yaml.org,2002:int', {
     kind: 'scalar',
     resolve: resolveYamlInteger,
     construct: constructYamlInteger,
@@ -658,9 +591,6 @@
       hexadecimal: [ 16, 'hex' ]
     }
   });
-
-  var common$2 = common$5;
-  var Type$7   = type;
 
   var YAML_FLOAT_PATTERN = new RegExp(
     // 2.5e4, 2.5 and integers
@@ -729,7 +659,7 @@
         case 'uppercase': return '-.INF';
         case 'camelcase': return '-.Inf';
       }
-    } else if (common$2.isNegativeZero(object)) {
+    } else if (isNegativeZero(object)) {
       return '-0.0';
     }
 
@@ -743,10 +673,10 @@
 
   function isFloat(object) {
     return (Object.prototype.toString.call(object) === '[object Number]') &&
-           (object % 1 !== 0 || common$2.isNegativeZero(object));
+           (object % 1 !== 0 || isNegativeZero(object));
   }
 
-  var float = new Type$7('tag:yaml.org,2002:float', {
+  var float = new Type('tag:yaml.org,2002:float', {
     kind: 'scalar',
     resolve: resolveYamlFloat,
     construct: constructYamlFloat,
@@ -755,18 +685,23 @@
     defaultStyle: 'lowercase'
   });
 
+  // Standard YAML's JSON schema.
+  // http://www.yaml.org/spec/1.2/spec.html#id2803231
+  //
+  // NOTE: JS-YAML does not support schema-specific tag resolution restrictions.
+  // So, this schema is not such strict as defined in the YAML specification.
+  // It allows numbers in binary notaion, use `Null` and `NULL` as `null`, etc.
+
+
+
   var json = failsafe.extend({
     implicit: [
-      _null,
+      nullType,
       bool,
       int,
       float
     ]
   });
-
-  var core = json;
-
-  var Type$6 = type;
 
   var YAML_DATE_REGEXP = new RegExp(
     '^([0-9][0-9][0-9][0-9])'          + // [1] year
@@ -845,7 +780,7 @@
     return object.toISOString();
   }
 
-  var timestamp = new Type$6('tag:yaml.org,2002:timestamp', {
+  var timestamp = new Type('tag:yaml.org,2002:timestamp', {
     kind: 'scalar',
     resolve: resolveYamlTimestamp,
     construct: constructYamlTimestamp,
@@ -853,22 +788,14 @@
     represent: representYamlTimestamp
   });
 
-  var Type$5 = type;
-
   function resolveYamlMerge(data) {
     return data === '<<' || data === null;
   }
 
-  var merge = new Type$5('tag:yaml.org,2002:merge', {
+  var merge = new Type('tag:yaml.org,2002:merge', {
     kind: 'scalar',
     resolve: resolveYamlMerge
   });
-
-  /*eslint-disable no-bitwise*/
-
-
-  var Type$4 = type;
-
 
   // [ 64, 65, 66 ] -> [ padding, CR, LF ]
   var BASE64_MAP = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=\n\r';
@@ -980,15 +907,13 @@
     return Object.prototype.toString.call(obj) ===  '[object Uint8Array]';
   }
 
-  var binary = new Type$4('tag:yaml.org,2002:binary', {
+  var binary = new Type('tag:yaml.org,2002:binary', {
     kind: 'scalar',
     resolve: resolveYamlBinary,
     construct: constructYamlBinary,
     predicate: isBinary,
     represent: representYamlBinary
   });
-
-  var Type$3 = type;
 
   var _hasOwnProperty$3 = Object.prototype.hasOwnProperty;
   var _toString$2       = Object.prototype.toString;
@@ -1025,13 +950,11 @@
     return data !== null ? data : [];
   }
 
-  var omap = new Type$3('tag:yaml.org,2002:omap', {
+  var omap = new Type('tag:yaml.org,2002:omap', {
     kind: 'sequence',
     resolve: resolveYamlOmap,
     construct: constructYamlOmap
   });
-
-  var Type$2 = type;
 
   var _toString$1 = Object.prototype.toString;
 
@@ -1077,13 +1000,11 @@
     return result;
   }
 
-  var pairs = new Type$2('tag:yaml.org,2002:pairs', {
+  var pairs = new Type('tag:yaml.org,2002:pairs', {
     kind: 'sequence',
     resolve: resolveYamlPairs,
     construct: constructYamlPairs
   });
-
-  var Type$1 = type;
 
   var _hasOwnProperty$2 = Object.prototype.hasOwnProperty;
 
@@ -1105,13 +1026,22 @@
     return data !== null ? data : {};
   }
 
-  var set = new Type$1('tag:yaml.org,2002:set', {
+  var set = new Type('tag:yaml.org,2002:set', {
     kind: 'mapping',
     resolve: resolveYamlSet,
     construct: constructYamlSet
   });
 
-  var _default = core.extend({
+  // JS-YAML's default schema for `safeLoad` function.
+  // It is not described in the YAML specification.
+  //
+  // This schema is based on standard YAML's Core schema and includes most of
+  // extra types described at YAML tag repository. (http://yaml.org/type/)
+
+
+
+
+  var DEFAULT_SCHEMA = json.extend({
     implicit: [
       timestamp,
       merge
@@ -1123,14 +1053,6 @@
       set
     ]
   });
-
-  /*eslint-disable max-len,no-use-before-define*/
-
-  var common$1              = common$5;
-  var YAMLException$2       = exception;
-  var makeSnippet         = snippet;
-  var DEFAULT_SCHEMA$2      = _default;
-
 
   var _hasOwnProperty$1 = Object.prototype.hasOwnProperty;
 
@@ -1156,18 +1078,18 @@
   function _class(obj) { return Object.prototype.toString.call(obj); }
 
   function is_EOL(c) {
-    return (c === 0x0A/* LF */) || (c === 0x0D/* CR */);
+    return ((c === 0x0A)/* LF */) || ((c === 0x0D)/* CR */);
   }
 
   function is_WHITE_SPACE(c) {
-    return (c === 0x09/* Tab */) || (c === 0x20/* Space */);
+    return ((c === 0x09)/* Tab */) || ((c === 0x20)/* Space */);
   }
 
   function is_WS_OR_EOL(c) {
-    return (c === 0x09/* Tab */) ||
-           (c === 0x20/* Space */) ||
-           (c === 0x0A/* LF */) ||
-           (c === 0x0D/* CR */);
+    return ((c === 0x09)/* Tab */) ||
+           ((c === 0x20)/* Space */) ||
+           ((c === 0x0A)/* LF */) ||
+           ((c === 0x0D)/* CR */);
   }
 
   function is_FLOW_INDICATOR(c) {
@@ -1181,14 +1103,14 @@
   function fromHexCode(c) {
     var lc;
 
-    if ((0x30/* 0 */ <= c) && (c <= 0x39/* 9 */)) {
+    if ((0x30/* 0 */ <= c) && ((c <= 0x39)/* 9 */)) {
       return c - 0x30;
     }
 
     /*eslint-disable no-bitwise*/
     lc = c | 0x20;
 
-    if ((0x61/* a */ <= lc) && (lc <= 0x66/* f */)) {
+    if ((0x61/* a */ <= lc) && ((lc <= 0x66)/* f */)) {
       return lc - 0x61 + 10;
     }
 
@@ -1203,7 +1125,7 @@
   }
 
   function fromDecimalCode(c) {
-    if ((0x30/* 0 */ <= c) && (c <= 0x39/* 9 */)) {
+    if ((0x30/* 0 */ <= c) && ((c <= 0x39)/* 9 */)) {
       return c - 0x30;
     }
 
@@ -1212,24 +1134,24 @@
 
   function simpleEscapeSequence(c) {
     /* eslint-disable indent */
-    return (c === 0x30/* 0 */) ? '\x00' :
-          (c === 0x61/* a */) ? '\x07' :
-          (c === 0x62/* b */) ? '\x08' :
-          (c === 0x74/* t */) ? '\x09' :
-          (c === 0x09/* Tab */) ? '\x09' :
-          (c === 0x6E/* n */) ? '\x0A' :
-          (c === 0x76/* v */) ? '\x0B' :
-          (c === 0x66/* f */) ? '\x0C' :
-          (c === 0x72/* r */) ? '\x0D' :
-          (c === 0x65/* e */) ? '\x1B' :
-          (c === 0x20/* Space */) ? ' ' :
-          (c === 0x22/* " */) ? '\x22' :
-          (c === 0x2F/* / */) ? '/' :
-          (c === 0x5C/* \ */) ? '\x5C' :
-          (c === 0x4E/* N */) ? '\x85' :
-          (c === 0x5F/* _ */) ? '\xA0' :
-          (c === 0x4C/* L */) ? '\u2028' :
-          (c === 0x50/* P */) ? '\u2029' : '';
+    return ((c === 0x30)/* 0 */) ? '\x00' :
+          ((c === 0x61)/* a */) ? '\x07' :
+          ((c === 0x62)/* b */) ? '\x08' :
+          ((c === 0x74)/* t */) ? '\x09' :
+          ((c === 0x09)/* Tab */) ? '\x09' :
+          ((c === 0x6E)/* n */) ? '\x0A' :
+          ((c === 0x76)/* v */) ? '\x0B' :
+          ((c === 0x66)/* f */) ? '\x0C' :
+          ((c === 0x72)/* r */) ? '\x0D' :
+          ((c === 0x65)/* e */) ? '\x1B' :
+          ((c === 0x20)/* Space */) ? ' ' :
+          ((c === 0x22)/* " */) ? '\x22' :
+          ((c === 0x2F)/* / */) ? '/' :
+          ((c === 0x5C)/* \ */) ? '\x5C' :
+          ((c === 0x4E)/* N */) ? '\x85' :
+          ((c === 0x5F)/* _ */) ? '\xA0' :
+          ((c === 0x4C)/* L */) ? '\u2028' :
+          ((c === 0x50)/* P */) ? '\u2029' : '';
   }
 
   function charFromCodepoint(c) {
@@ -1256,7 +1178,7 @@
     this.input = input;
 
     this.filename  = options['filename']  || null;
-    this.schema    = options['schema']    || DEFAULT_SCHEMA$2;
+    this.schema    = options['schema']    || DEFAULT_SCHEMA;
     this.onWarning = options['onWarning'] || null;
     // (Hidden) Remove? makes the loader to expect YAML 1.1 documents
     // if such documents have no explicit %YAML directive
@@ -1304,7 +1226,7 @@
 
     mark.snippet = makeSnippet(mark);
 
-    return new YAMLException$2(message, mark);
+    return new YAMLException(message, mark);
   }
 
   function throwError(state, message) {
@@ -1412,7 +1334,7 @@
   function mergeMappings(state, destination, source, overridableKeys) {
     var sourceKeys, key, index, quantity;
 
-    if (!common$1.isObject(source)) {
+    if (!isObject(source)) {
       throwError(state, 'cannot merge mappings; the provided source object is unacceptable');
     }
 
@@ -1569,7 +1491,7 @@
 
     // Condition state.position === state.lineStart is tested
     // in parent on each call, for efficiency. No needs to test here again.
-    if ((ch === 0x2D/* - */ || ch === 0x2E/* . */) &&
+    if (((ch === 0x2D/* - */ || ch === 0x2E)/* . */) &&
         ch === state.input.charCodeAt(_position + 1) &&
         ch === state.input.charCodeAt(_position + 2)) {
 
@@ -1589,7 +1511,7 @@
     if (count === 1) {
       state.result += ' ';
     } else if (count > 1) {
-      state.result += common$1.repeat('\n', count - 1);
+      state.result += repeat('\n', count - 1);
     }
   }
 
@@ -1969,7 +1891,7 @@
 
       if (ch === 0x2B/* + */ || ch === 0x2D/* - */) {
         if (CHOMPING_CLIP === chomping) {
-          chomping = (ch === 0x2B/* + */) ? CHOMPING_KEEP : CHOMPING_STRIP;
+          chomping = ((ch === 0x2B)/* + */) ? CHOMPING_KEEP : CHOMPING_STRIP;
         } else {
           throwError(state, 'repeat of a chomping mode identifier');
         }
@@ -2006,7 +1928,7 @@
       ch = state.input.charCodeAt(state.position);
 
       while ((!detectedIndent || state.lineIndent < textIndent) &&
-             (ch === 0x20/* Space */)) {
+             ((ch === 0x20)/* Space */)) {
         state.lineIndent++;
         ch = state.input.charCodeAt(++state.position);
       }
@@ -2025,7 +1947,7 @@
 
         // Perform the chomping.
         if (chomping === CHOMPING_KEEP) {
-          state.result += common$1.repeat('\n', didReadContent ? 1 + emptyLines : emptyLines);
+          state.result += repeat('\n', didReadContent ? 1 + emptyLines : emptyLines);
         } else if (chomping === CHOMPING_CLIP) {
           if (didReadContent) { // i.e. only if the scalar is not empty.
             state.result += '\n';
@@ -2043,12 +1965,12 @@
         if (is_WHITE_SPACE(ch)) {
           atMoreIndented = true;
           // except for the first content line (cf. Example 8.1)
-          state.result += common$1.repeat('\n', didReadContent ? 1 + emptyLines : emptyLines);
+          state.result += repeat('\n', didReadContent ? 1 + emptyLines : emptyLines);
 
         // End of more-indented block.
         } else if (atMoreIndented) {
           atMoreIndented = false;
-          state.result += common$1.repeat('\n', emptyLines + 1);
+          state.result += repeat('\n', emptyLines + 1);
 
         // Just one line break - perceive as the same line.
         } else if (emptyLines === 0) {
@@ -2058,13 +1980,13 @@
 
         // Several line breaks - perceive as different lines.
         } else {
-          state.result += common$1.repeat('\n', emptyLines);
+          state.result += repeat('\n', emptyLines);
         }
 
       // Literal style: just add exact number of line breaks between content lines.
       } else {
         // Keep all line breaks except the header line break.
-        state.result += common$1.repeat('\n', didReadContent ? 1 + emptyLines : emptyLines);
+        state.result += repeat('\n', didReadContent ? 1 + emptyLines : emptyLines);
       }
 
       didReadContent = true;
@@ -2193,7 +2115,7 @@
       // Explicit notation case. There are two separate blocks:
       // first for the key (denoted by "?") and second for the value (denoted by ":")
       //
-      if ((ch === 0x3F/* ? */ || ch === 0x3A/* : */) && is_WS_OR_EOL(following)) {
+      if (((ch === 0x3F/* ? */ || ch === 0x3A)/* : */) && is_WS_OR_EOL(following)) {
 
         if (ch === 0x3F/* ? */) {
           if (atExplicitKey) {
@@ -2816,7 +2738,7 @@
   }
 
 
-  function loadAll$1(input, iterator, options) {
+  function loadAll(input, iterator, options) {
     if (iterator !== null && typeof iterator === 'object' && typeof options === 'undefined') {
       options = iterator;
       iterator = null;
@@ -2834,7 +2756,7 @@
   }
 
 
-  function load$1(input, options) {
+  function load(input, options) {
     var documents = loadDocuments(input, options);
 
     if (documents.length === 0) {
@@ -2843,49 +2765,37 @@
     } else if (documents.length === 1) {
       return documents[0];
     }
-    throw new YAMLException$2('expected a single document in the stream, but found more');
+    throw new YAMLException('expected a single document in the stream, but found more');
   }
-
-
-  loader$1.loadAll = loadAll$1;
-  loader$1.load    = load$1;
-
-  var dumper$1 = {};
-
-  /*eslint-disable no-use-before-define*/
-
-  var common              = common$5;
-  var YAMLException$1       = exception;
-  var DEFAULT_SCHEMA$1      = _default;
 
   var _toString       = Object.prototype.toString;
   var _hasOwnProperty = Object.prototype.hasOwnProperty;
 
   var CHAR_BOM                  = 0xFEFF;
-  var CHAR_TAB                  = 0x09; /* Tab */
-  var CHAR_LINE_FEED            = 0x0A; /* LF */
-  var CHAR_CARRIAGE_RETURN      = 0x0D; /* CR */
-  var CHAR_SPACE                = 0x20; /* Space */
-  var CHAR_EXCLAMATION          = 0x21; /* ! */
-  var CHAR_DOUBLE_QUOTE         = 0x22; /* " */
-  var CHAR_SHARP                = 0x23; /* # */
-  var CHAR_PERCENT              = 0x25; /* % */
-  var CHAR_AMPERSAND            = 0x26; /* & */
-  var CHAR_SINGLE_QUOTE         = 0x27; /* ' */
-  var CHAR_ASTERISK             = 0x2A; /* * */
-  var CHAR_COMMA                = 0x2C; /* , */
-  var CHAR_MINUS                = 0x2D; /* - */
-  var CHAR_COLON                = 0x3A; /* : */
-  var CHAR_EQUALS               = 0x3D; /* = */
-  var CHAR_GREATER_THAN         = 0x3E; /* > */
-  var CHAR_QUESTION             = 0x3F; /* ? */
-  var CHAR_COMMERCIAL_AT        = 0x40; /* @ */
-  var CHAR_LEFT_SQUARE_BRACKET  = 0x5B; /* [ */
-  var CHAR_RIGHT_SQUARE_BRACKET = 0x5D; /* ] */
-  var CHAR_GRAVE_ACCENT         = 0x60; /* ` */
-  var CHAR_LEFT_CURLY_BRACKET   = 0x7B; /* { */
-  var CHAR_VERTICAL_LINE        = 0x7C; /* | */
-  var CHAR_RIGHT_CURLY_BRACKET  = 0x7D; /* } */
+  var CHAR_TAB                  = 0x09;/* Tab */
+  var CHAR_LINE_FEED            = 0x0A;/* LF */
+  var CHAR_CARRIAGE_RETURN      = 0x0D;/* CR */
+  var CHAR_SPACE                = 0x20;/* Space */
+  var CHAR_EXCLAMATION          = 0x21;/* ! */
+  var CHAR_DOUBLE_QUOTE         = 0x22;/* " */
+  var CHAR_SHARP                = 0x23;/* # */
+  var CHAR_PERCENT              = 0x25;/* % */
+  var CHAR_AMPERSAND            = 0x26;/* & */
+  var CHAR_SINGLE_QUOTE         = 0x27;/* ' */
+  var CHAR_ASTERISK             = 0x2A;/* * */
+  var CHAR_COMMA                = 0x2C;/* , */
+  var CHAR_MINUS                = 0x2D;/* - */
+  var CHAR_COLON                = 0x3A;/* : */
+  var CHAR_EQUALS               = 0x3D;/* = */
+  var CHAR_GREATER_THAN         = 0x3E;/* > */
+  var CHAR_QUESTION             = 0x3F;/* ? */
+  var CHAR_COMMERCIAL_AT        = 0x40;/* @ */
+  var CHAR_LEFT_SQUARE_BRACKET  = 0x5B;/* [ */
+  var CHAR_RIGHT_SQUARE_BRACKET = 0x5D;/* ] */
+  var CHAR_GRAVE_ACCENT         = 0x60;/* ` */
+  var CHAR_LEFT_CURLY_BRACKET   = 0x7B;/* { */
+  var CHAR_VERTICAL_LINE        = 0x7C;/* | */
+  var CHAR_RIGHT_CURLY_BRACKET  = 0x7D;/* } */
 
   var ESCAPE_SEQUENCES = {};
 
@@ -2954,10 +2864,10 @@
       handle = 'U';
       length = 8;
     } else {
-      throw new YAMLException$1('code point within a string may not be greater than 0xFFFFFFFF');
+      throw new YAMLException('code point within a string may not be greater than 0xFFFFFFFF');
     }
 
-    return '\\' + handle + common.repeat('0', length - string.length) + string;
+    return '\\' + handle + repeat('0', length - string.length) + string;
   }
 
 
@@ -2965,11 +2875,11 @@
       QUOTING_TYPE_DOUBLE = 2;
 
   function State(options) {
-    this.schema        = options['schema'] || DEFAULT_SCHEMA$1;
+    this.schema        = options['schema'] || DEFAULT_SCHEMA;
     this.indent        = Math.max(1, (options['indent'] || 2));
     this.noArrayIndent = options['noArrayIndent'] || false;
     this.skipInvalid   = options['skipInvalid'] || false;
-    this.flowLevel     = (common.isNothing(options['flowLevel']) ? -1 : options['flowLevel']);
+    this.flowLevel     = (isNothing(options['flowLevel']) ? -1 : options['flowLevel']);
     this.styleMap      = compileStyleMap(this.schema, options['styles'] || null);
     this.sortKeys      = options['sortKeys'] || false;
     this.lineWidth     = options['lineWidth'] || 80;
@@ -2992,7 +2902,7 @@
 
   // Indents every line in a string. Empty lines (\n only) are not indented.
   function indentString(string, spaces) {
-    var ind = common.repeat(' ', spaces),
+    var ind = repeat(' ', spaces),
         position = 0,
         next = -1,
         result = '',
@@ -3018,7 +2928,7 @@
   }
 
   function generateNextLine(state, level) {
-    return '\n' + common.repeat(' ', state.indent * level);
+    return '\n' + repeat(' ', state.indent * level);
   }
 
   function testImplicitResolving(state, str) {
@@ -3078,15 +2988,14 @@
     var cIsNsChar = cIsNsCharOrWhitespace && !isWhitespace(c);
     return (
       // ns-plain-safe
-      inblock ? // c = flow-in
-        cIsNsCharOrWhitespace
-        : cIsNsCharOrWhitespace
+      (// c = flow-in
+        (inblock ? cIsNsCharOrWhitespace : cIsNsCharOrWhitespace
           // - c-flow-indicator
           && c !== CHAR_COMMA
           && c !== CHAR_LEFT_SQUARE_BRACKET
           && c !== CHAR_RIGHT_SQUARE_BRACKET
           && c !== CHAR_LEFT_CURLY_BRACKET
-          && c !== CHAR_RIGHT_CURLY_BRACKET
+          && c !== CHAR_RIGHT_CURLY_BRACKET))
     )
       // ns-plain-char
       && c !== CHAR_SHARP // false on '#'
@@ -3290,7 +3199,7 @@
         case STYLE_DOUBLE:
           return '"' + escapeString(string) + '"';
         default:
-          throw new YAMLException$1('impossible error: invalid scalar style');
+          throw new YAMLException('impossible error: invalid scalar style');
       }
     }());
   }
@@ -3542,7 +3451,7 @@
       objectKeyList.sort(state.sortKeys);
     } else if (state.sortKeys) {
       // Something is wrong
-      throw new YAMLException$1('sortKeys must be a boolean or a function');
+      throw new YAMLException('sortKeys must be a boolean or a function');
     }
 
     for (index = 0, length = objectKeyList.length; index < length; index += 1) {
@@ -3630,7 +3539,7 @@
           } else if (_hasOwnProperty.call(type.represent, style)) {
             _result = type.represent[style](object, style);
           } else {
-            throw new YAMLException$1('!<' + type.tag + '> tag resolver accepts not "' + style + '" style');
+            throw new YAMLException('!<' + type.tag + '> tag resolver accepts not "' + style + '" style');
           }
 
           state.dump = _result;
@@ -3717,7 +3626,7 @@
         return false;
       } else {
         if (state.skipInvalid) return false;
-        throw new YAMLException$1('unacceptable kind of an object to dump ' + type);
+        throw new YAMLException('unacceptable kind of an object to dump ' + type);
       }
 
       if (state.tag !== null && state.tag !== '?') {
@@ -3796,7 +3705,7 @@
     }
   }
 
-  function dump$1(input, options) {
+  function dump(input, options) {
     options = options || {};
 
     var state = new State(options);
@@ -3814,12 +3723,6 @@
     return '';
   }
 
-  dumper$1.dump = dump$1;
-
-  var loader = loader$1;
-  var dumper = dumper$1;
-
-
   function renamed(from, to) {
     return function () {
       throw new Error('Function yaml.' + from + ' is removed in js-yaml 4. ' +
@@ -3827,48 +3730,33 @@
     };
   }
 
-
-  var Type = jsYaml.Type                = type;
-  var Schema = jsYaml.Schema              = schema;
-  var FAILSAFE_SCHEMA = jsYaml.FAILSAFE_SCHEMA     = failsafe;
-  var JSON_SCHEMA = jsYaml.JSON_SCHEMA         = json;
-  var CORE_SCHEMA = jsYaml.CORE_SCHEMA         = core;
-  var DEFAULT_SCHEMA = jsYaml.DEFAULT_SCHEMA      = _default;
-  var load = jsYaml.load                = loader.load;
-  var loadAll = jsYaml.loadAll             = loader.loadAll;
-  var dump = jsYaml.dump                = dumper.dump;
-  var YAMLException = jsYaml.YAMLException       = exception;
-
-  // Re-export all types in case user wants to create custom schema
-  var types = jsYaml.types = {
-    binary:    binary,
-    float:     float,
-    map:       map,
-    null:      _null,
-    pairs:     pairs,
-    set:       set,
-    timestamp: timestamp,
-    bool:      bool,
-    int:       int,
-    merge:     merge,
-    omap:      omap,
-    seq:       seq,
-    str:       str
+  const types = {
+    binary,
+    float,
+    map,
+    null:      nullType,
+    pairs,
+    set,
+    timestamp,
+    bool,
+    int,
+    merge,
+    omap,
+    seq,
+    str
   };
 
-  // Removed functions from JS-YAML 3.0.x
-  var safeLoad = jsYaml.safeLoad            = renamed('safeLoad', 'load');
-  var safeLoadAll = jsYaml.safeLoadAll         = renamed('safeLoadAll', 'loadAll');
-  var safeDump = jsYaml.safeDump            = renamed('safeDump', 'dump');
+  const safeLoad            = renamed('safeLoad', 'load');
+  const safeLoadAll         = renamed('safeLoadAll', 'loadAll');
+  const safeDump            = renamed('safeDump', 'dump');
 
-  exports.CORE_SCHEMA = CORE_SCHEMA;
+  exports.CORE_SCHEMA = json;
   exports.DEFAULT_SCHEMA = DEFAULT_SCHEMA;
-  exports.FAILSAFE_SCHEMA = FAILSAFE_SCHEMA;
-  exports.JSON_SCHEMA = JSON_SCHEMA;
+  exports.FAILSAFE_SCHEMA = failsafe;
+  exports.JSON_SCHEMA = json;
   exports.Schema = Schema;
   exports.Type = Type;
   exports.YAMLException = YAMLException;
-  exports.default = jsYaml;
   exports.dump = dump;
   exports.load = load;
   exports.loadAll = loadAll;
@@ -3876,7 +3764,5 @@
   exports.safeLoad = safeLoad;
   exports.safeLoadAll = safeLoadAll;
   exports.types = types;
-
-  Object.defineProperty(exports, '__esModule', { value: true });
 
 }));

@@ -1,24 +1,24 @@
-'use strict';
 
 
-var assert = require('assert');
-var path   = require('path');
-var fs     = require('fs');
-var yaml   = require('../');
 
-var TEST_SCHEMA = require('./support/schema').TEST_SCHEMA;
+import assert from 'assert';
+import path from 'path';
+import fs from 'fs';
+import * as yaml from '../index.js';
+
+import { TEST_SCHEMA } from './support/schema.js';
 
 
 describe('Loader', function () {
-  var samplesDir = path.resolve(__dirname, 'samples-common');
+  var samplesDir = path.resolve(import.meta.dirname, 'samples-common');
 
   fs.readdirSync(samplesDir).forEach(function (jsFile) {
     if (path.extname(jsFile) !== '.js') return; // continue
 
     var yamlFile = path.resolve(samplesDir, path.basename(jsFile, '.js') + '.yml');
 
-    it(path.basename(jsFile, '.js'), function () {
-      var expected = require(path.resolve(samplesDir, jsFile));
+    it(path.basename(jsFile, '.js'), async function () {
+      var expected = await import(path.resolve(samplesDir, jsFile)).then((m) => m.default);
       var actual   = [];
 
       yaml.loadAll(fs.readFileSync(yamlFile, { encoding: 'utf8' }), function (doc) { actual.push(doc); }, {

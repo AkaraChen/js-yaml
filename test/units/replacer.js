@@ -1,7 +1,7 @@
-'use strict';
 
-const assert = require('assert');
-const yaml = require('../..');
+
+import assert from 'assert';
+import * as yaml from '../../index.js';
 
 
 describe('replacer', function () {

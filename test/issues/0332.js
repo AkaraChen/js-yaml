@@ -1,8 +1,8 @@
-'use strict';
 
 
-const assert = require('assert');
-const yaml   = require('../../');
+
+import assert from 'assert';
+import * as yaml from '../../index.js';
 
 
 it('Should format errors', function () {
@@ -34,7 +34,7 @@ it('Should format errors', function () {
  1 | foo:
  2 |   bar: 1
  3 | a
- 4 | 
+ 4 |
 -----^`);
   }
 });

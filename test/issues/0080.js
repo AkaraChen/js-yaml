@@ -1,8 +1,8 @@
-'use strict';
 
 
-const assert = require('assert');
-const yaml = require('../../');
+
+import assert from 'assert';
+import * as yaml from '../../index.js';
 
 
 it('should throw when tabs are used as indentation', function () {
@@ -38,7 +38,7 @@ it('should allow tabs inside separation spaces', function () {
   assert.deepStrictEqual(yaml.load(`
  -\t \tfoo\t \t
 \t \t \t
- - \t bar \t 
+ - \t bar \t
 `), [ 'foo', 'bar' ]);
 
   assert.deepStrictEqual(yaml.load(`

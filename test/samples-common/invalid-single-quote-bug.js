@@ -1,6 +1,6 @@
-'use strict';
 
-module.exports = [
+
+export default [
   "foo 'bar'",
   "foo\n'bar'"
 ];

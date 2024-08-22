@@ -1,6 +1,6 @@
-'use strict';
 
-module.exports = [
+
+export default [
   {
     'link with': [
       'library1.dll',

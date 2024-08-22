@@ -1,6 +1,6 @@
-'use strict';
 
-module.exports = {
+
+export default {
   canonical: 685230,
   decimal: 685230,
   octal: 685230,

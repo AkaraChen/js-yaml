@@ -1,6 +1,6 @@
-'use strict';
 
-module.exports = {
+
+export default {
   'Block style': {
     Clark: 'Evans',
     Brian: 'Ingerson',

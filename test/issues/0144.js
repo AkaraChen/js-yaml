@@ -1,8 +1,8 @@
-'use strict';
 
 
-var assert = require('assert');
-var yaml   = require('../../');
+
+import assert from 'assert';
+import * as yaml from '../../index.js';
 
 
 it('Infinite loop when attempting to parse multi-line scalar document that is not indented', function () {

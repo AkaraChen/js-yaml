@@ -1,9 +1,10 @@
-'use strict';
+
 
 /*eslint-disable no-console*/
 
-const util = require('util');
-const yaml = require('../');
+import util from 'util';
+
+import * as yaml from '../index.js';
 
 
 class CustomTag {

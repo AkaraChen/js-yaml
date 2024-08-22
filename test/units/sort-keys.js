@@ -1,8 +1,8 @@
-'use strict';
 
 
-var assert = require('assert');
-var yaml   = require('../../');
+
+import assert from 'assert';
+import * as yaml from '../../index.js';
 
 var sample = { b: 1, a: 2, c: 3 };
 var unsortedExpected = 'b: 1\na: 2\nc: 3\n';

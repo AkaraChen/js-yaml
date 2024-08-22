@@ -1,6 +1,6 @@
-'use strict';
 
-module.exports = {
+
+export default {
   'baseball players': {
     'Mark McGwire': null,
     'Sammy Sosa': null,

@@ -1,14 +1,14 @@
-'use strict';
 
 
-var assert  = require('assert');
-var path    = require('path');
-var fs      = require('fs');
-var snippet = require('../../lib/snippet');
+
+import assert from 'assert';
+import path from 'path';
+import fs from 'fs';
+import snippet from '../../lib/snippet.js';
 
 
 it('Snippet', function () {
-  let filepath = path.join(__dirname, 'snippet.txt'),
+  let filepath = path.join(import.meta.dirname, 'snippet.txt'),
       filedata = fs.readFileSync(filepath, 'utf8');
 
   let data = filedata.split(/(---[ \d]*\n)/).slice(1);

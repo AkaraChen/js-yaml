@@ -1,10 +1,14 @@
 env:
   node:     true
   browser:  true
-  es6:      false
+  es6:      true
 
 globals:
   Uint8Array: false
+
+parserOptions:
+  sourceType: module
+  ecmaVersion: 2023
 
 ignorePatterns:
   - coverage/
@@ -12,7 +16,7 @@ ignorePatterns:
   - dist/
   - node_modules
   - benchmark/implementations
-  - rollup.config.js
+  - rollup.config.mjs
 
 rules:
   accessor-pairs:         2

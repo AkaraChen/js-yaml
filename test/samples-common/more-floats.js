@@ -1,6 +1,6 @@
-'use strict';
 
-var assert = require('assert');
+
+import assert from 'assert';
 
 var expected = [
   0.0,
@@ -26,4 +26,4 @@ function testHandler(actual) {
 
 testHandler.expected = expected;
 
-module.exports = testHandler;
+export default testHandler;

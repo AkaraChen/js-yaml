@@ -1,16 +1,15 @@
-'use strict';
 
 
-var path = require('path');
-var fs   = require('fs');
 
+import path from 'path';
+import fs from 'fs';
 
-describe('Units', function () {
-  var directory = path.resolve(__dirname, 'units');
+describe('Units', async function () {
+  var directory = path.resolve(import.meta.dirname, 'units');
 
-  fs.readdirSync(directory).forEach(function (file) {
+  fs.readdirSync(directory).forEach(async function (file) {
     if (path.extname(file) === '.js') {
-      require(path.resolve(directory, file));
+      await import(path.resolve(directory, file));
     }
   });
 });

@@ -1,3 +1,3 @@
-'use strict';
 
-module.exports = 'ascii string';
+
+export default 'ascii string';

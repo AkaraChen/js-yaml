@@ -1,11 +1,12 @@
-'use strict';
+
 
 /*eslint-disable no-console*/
 
-var fs   = require('fs');
-var path = require('path');
-var util = require('util');
-var yaml = require('../');
+import fs from 'fs';
+
+import path from 'path';
+import util from 'util';
+import * as yaml from '../index.js';
 
 
 // Let's define a couple of classes.
@@ -83,7 +84,7 @@ var SPACE_SCHEMA = yaml.DEFAULT_SCHEMA.extend([ SpaceYamlType, PointYamlType ]);
 if (require.main === module) {
 
   // And read a document using that schema.
-  fs.readFile(path.join(__dirname, 'custom_types.yml'), 'utf8', function (error, data) {
+  fs.readFile(path.join(import.meta.dirname, 'custom_types.yml'), 'utf8', function (error, data) {
     var loaded;
 
     if (!error) {
@@ -96,8 +97,9 @@ if (require.main === module) {
 }
 
 // There are some exports to play with this example interactively.
-module.exports.Point         = Point;
-module.exports.Space         = Space;
-module.exports.PointYamlType = PointYamlType;
-module.exports.SpaceYamlType = SpaceYamlType;
-module.exports.SPACE_SCHEMA  = SPACE_SCHEMA;
+export { Point };
+
+export { Space };
+export { PointYamlType };
+export { SpaceYamlType };
+export { SPACE_SCHEMA };

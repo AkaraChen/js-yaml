@@ -1,6 +1,6 @@
-'use strict';
 
-module.exports = {
+
+export default {
   Bestiary: [
     { aardvark : 'African pig-like ant eater. Ugly.'        },
     { anteater : 'South-American ant eater. Two species.'   },

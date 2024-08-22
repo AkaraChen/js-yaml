@@ -1,7 +1,7 @@
-'use strict';
 
-var assert = require('assert');
-var schema = require('../support/schema');
+
+import assert from 'assert';
+import * as schema from '../support/schema.js';
 
 var expected = [
   new schema.Tag1({ x: 1 }),
@@ -41,4 +41,4 @@ function testHandler(actual) {
 
 testHandler.expected = expected;
 
-module.exports = testHandler;
+export default testHandler;

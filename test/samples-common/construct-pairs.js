@@ -1,6 +1,6 @@
-'use strict';
 
-module.exports = {
+
+export default {
   'Block tasks': [
     [ 'meeting', 'with team.' ],
     [ 'meeting', 'with boss.' ],

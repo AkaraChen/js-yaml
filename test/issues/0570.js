@@ -1,8 +1,8 @@
-'use strict';
 
 
-const assert = require('assert');
-const yaml = require('../../');
+
+import assert from 'assert';
+import * as yaml from '../../index.js';
 
 
 it('should dump null in different styles', function () {

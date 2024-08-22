@@ -1,8 +1,8 @@
-'use strict';
 
 
-var loader = require('./lib/loader');
-var dumper = require('./lib/dumper');
+
+import { load, loadAll } from './lib/loader.js';
+import { dump } from './lib/dumper.js';
 
 
 function renamed(from, to) {
@@ -12,36 +12,45 @@ function renamed(from, to) {
   };
 }
 
+export { default as  Type }           from './lib/type.js';
+export { default as Schema }     from './lib/schema.js';
+export { default as FAILSAFE_SCHEMA }       from './lib/schema/failsafe.js';
+export { default as JSON_SCHEMA } from './lib/schema/json.js';
+export { default as CORE_SCHEMA } from './lib/schema/core.js';
+export { default as DEFAULT_SCHEMA } from './lib/schema/default.js';
+export { load, loadAll, dump };
+export { default as YAMLException } from './lib/exception.js';
 
-module.exports.Type                = require('./lib/type');
-module.exports.Schema              = require('./lib/schema');
-module.exports.FAILSAFE_SCHEMA     = require('./lib/schema/failsafe');
-module.exports.JSON_SCHEMA         = require('./lib/schema/json');
-module.exports.CORE_SCHEMA         = require('./lib/schema/core');
-module.exports.DEFAULT_SCHEMA      = require('./lib/schema/default');
-module.exports.load                = loader.load;
-module.exports.loadAll             = loader.loadAll;
-module.exports.dump                = dumper.dump;
-module.exports.YAMLException       = require('./lib/exception');
+import binary from './lib/type/binary.js';
+import float from './lib/type/float.js';
+import map from './lib/type/map.js';
+import nullType from './lib/type/null.js';
+import pairs from './lib/type/pairs.js';
+import set from './lib/type/set.js';
+import timestamp from './lib/type/timestamp.js';
+import bool from './lib/type/bool.js';
+import int from './lib/type/int.js';
+import merge from './lib/type/merge.js';
+import omap from './lib/type/omap.js';
+import seq from './lib/type/seq.js';
+import str from './lib/type/str.js';
 
-// Re-export all types in case user wants to create custom schema
-module.exports.types = {
-  binary:    require('./lib/type/binary'),
-  float:     require('./lib/type/float'),
-  map:       require('./lib/type/map'),
-  null:      require('./lib/type/null'),
-  pairs:     require('./lib/type/pairs'),
-  set:       require('./lib/type/set'),
-  timestamp: require('./lib/type/timestamp'),
-  bool:      require('./lib/type/bool'),
-  int:       require('./lib/type/int'),
-  merge:     require('./lib/type/merge'),
-  omap:      require('./lib/type/omap'),
-  seq:       require('./lib/type/seq'),
-  str:       require('./lib/type/str')
+export const types = {
+  binary,
+  float,
+  map,
+  null:      nullType,
+  pairs,
+  set,
+  timestamp,
+  bool,
+  int,
+  merge,
+  omap,
+  seq,
+  str
 };
 
-// Removed functions from JS-YAML 3.0.x
-module.exports.safeLoad            = renamed('safeLoad', 'load');
-module.exports.safeLoadAll         = renamed('safeLoadAll', 'loadAll');
-module.exports.safeDump            = renamed('safeDump', 'dump');
+export const safeLoad            = renamed('safeLoad', 'load');
+export const safeLoadAll         = renamed('safeLoadAll', 'loadAll');
+export const safeDump            = renamed('safeDump', 'dump');

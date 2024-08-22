@@ -1,9 +1,10 @@
-'use strict';
+
 
 /*eslint-disable no-console*/
 
-var yaml = require('../');
-var object = require('./dumper.json');
+import * as yaml from '../index.js';
+
+import object from './dumper.json';
 
 
 console.log(yaml.dump(object, {

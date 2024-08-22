@@ -1,16 +1,16 @@
-'use strict';
 
 
-var assert = require('assert');
-var path   = require('path');
-var fs     = require('fs');
-var yaml   = require('../');
 
-var TEST_SCHEMA = require('./support/schema').TEST_SCHEMA;
+import assert from 'assert';
+import path from 'path';
+import fs from 'fs';
+import * as yaml from '../index.js';
+
+import { TEST_SCHEMA } from './support/schema.js';
 
 
 describe('Load errors', function () {
-  var samplesDir = path.resolve(__dirname, 'samples-load-errors');
+  var samplesDir = path.resolve(import.meta.dirname, 'samples-load-errors');
 
   fs.readdirSync(samplesDir).forEach(function (sampleName) {
     var yamlFile = path.resolve(samplesDir, sampleName);

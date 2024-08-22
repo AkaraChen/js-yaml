@@ -1,8 +1,8 @@
-'use strict';
 
 
-var assert = require('assert');
-var yaml = require('../../');
+
+import assert from 'assert';
+import * as yaml from '../../index.js';
 
 
 it("Incorrect utf-8 handling on require('file.yaml')", function () {

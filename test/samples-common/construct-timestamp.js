@@ -1,6 +1,6 @@
-'use strict';
 
-module.exports = {
+
+export default {
   canonical:        new Date(Date.UTC(2001, 11, 15, 2, 59, 43, 100)),
   'valid iso8601':    new Date(Date.UTC(2001, 11, 15, 2, 59, 43, 100)),
   'space separated':  new Date(Date.UTC(2001, 11, 15, 2, 59, 43, 100)),

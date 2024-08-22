@@ -1,16 +1,16 @@
-'use strict';
 
 
-var path = require('path');
-var fs   = require('fs');
+
+import path from 'path';
+import fs from 'fs';
 
 
 describe('Issues', function () {
-  var issues = path.resolve(__dirname, 'issues');
+  var issues = path.resolve(import.meta.dirname, 'issues');
 
-  fs.readdirSync(issues).forEach(function (file) {
+  fs.readdirSync(issues).forEach(async function (file) {
     if (path.extname(file) === '.js') {
-      require(path.resolve(issues, file));
+      await import(path.resolve(issues, file));
     }
   });
 });

@@ -1,3 +1,3 @@
-'use strict';
 
-module.exports = { foo: 'bar', '=': 2 };
+
+export default { foo: 'bar', '=': 2 };

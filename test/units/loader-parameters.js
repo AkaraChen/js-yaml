@@ -1,7 +1,7 @@
-'use strict';
 
-var assert = require('assert');
-var yaml = require('../..');
+
+import assert from 'assert';
+import * as yaml from '../../index.js';
 
 describe('loader parameters', function () {
   var testStr = 'test: 1 \ntest: 2';

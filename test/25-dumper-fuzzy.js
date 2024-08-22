@@ -1,8 +1,8 @@
-'use strict';
 
-var assert = require('assert');
-var fc     = require('fast-check');
-var yaml   = require('../');
+
+import assert from 'assert';
+import fc from 'fast-check';
+import * as yaml from '../index.js';
 
 // Generate valid YAML instances for yaml.safeDump
 var key = fc.string16bits();

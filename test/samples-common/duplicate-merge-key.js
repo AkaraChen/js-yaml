@@ -1,6 +1,6 @@
-'use strict';
 
-module.exports = {
+
+export default {
   x: 1,
   y: 2,
   foo: 'bar',

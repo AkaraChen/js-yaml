@@ -1,3 +1,5 @@
-'use strict';
+import { createRequire } from 'module';
 
-module.exports = require('../../../');
+const require = createRequire(import.meta.url);
+
+export default require('../../../');

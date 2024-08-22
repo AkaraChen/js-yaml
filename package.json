@@ -8,6 +8,7 @@
     "serializer",
     "pyyaml"
   ],
+  "type": "module",
   "author": "Vladimir Zapparov <dervus.grim@gmail.com>",
   "contributors": [
     "Aleksey V Zapparov <ixti@member.fsf.org> (http://www.ixti.net/)",
@@ -47,11 +48,11 @@
     "ansi": "^0.3.1",
     "benchmark": "^2.1.4",
     "codemirror": "^5.13.4",
-    "eslint": "^7.0.0",
+    "eslint": "^8.57.0",
     "fast-check": "^2.8.0",
     "gh-pages": "^3.1.0",
     "mocha": "^8.2.1",
-    "nyc": "^15.1.0",
+    "nyc": "^17.0.0",
     "rollup": "^4.21.0",
     "rollup-plugin-node-polyfills": "^0.2.1",
     "shelljs": "^0.8.4"

@@ -1,8 +1,8 @@
-'use strict';
 
 
-const assert = require('assert');
-const yaml = require('../../');
+
+import assert from 'assert';
+import * as yaml from '../../index.js';
 
 
 it('should define __proto__ as a value (not invoke setter)', function () {
