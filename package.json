@@ -19,12 +19,8 @@
   "files": [
     "index.js",
     "lib/",
-    "bin/",
     "dist/"
   ],
-  "bin": {
-    "js-yaml": "bin/js-yaml.js"
-  },
   "module": "./dist/js-yaml.mjs",
   "exports": {
     ".": {
@@ -44,9 +40,6 @@
   },
   "unpkg": "dist/js-yaml.min.js",
   "jsdelivr": "dist/js-yaml.min.js",
-  "dependencies": {
-    "argparse": "^2.0.1"
-  },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
