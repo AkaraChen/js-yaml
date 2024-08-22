@@ -1,5 +1,3 @@
-import { createRequire } from 'module';
+import * as yaml from '../../../index.js';
 
-const require = createRequire(import.meta.url);
-
-export default require('../../../');
+export default yaml;

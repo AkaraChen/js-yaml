@@ -12,12 +12,14 @@
   ],
   "license": "MIT",
   "repository": "nodeca/js-yaml",
-  "files": ["index.js", "lib/", "dist/"],
-  "module": "./dist/js-yaml.mjs",
+  "files": ["dist/", "index.d.ts"],
+  "module": "./dist/js-yaml.js",
+  "main": "./dist/js-yaml.cjs",
   "exports": {
     ".": {
-      "import": "./dist/js-yaml.mjs",
-      "require": "./index.js"
+      "types": "./index.d.ts",
+      "import": "./dist/js-yaml.js",
+      "default": "./dist/js-yaml.cjs"
     },
     "./package.json": "./package.json"
   },
@@ -31,8 +33,6 @@
     "prepublishOnly": "npm run gh-demo",
     "check": "biome check . --write"
   },
-  "unpkg": "dist/js-yaml.min.js",
-  "jsdelivr": "dist/js-yaml.min.js",
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
     "@rollup/plugin-commonjs": "^26.0.1",
@@ -50,5 +50,6 @@
     "rollup-plugin-node-polyfills": "^0.2.1",
     "shelljs": "^0.8.4"
   },
-  "packageManager": "pnpm@9.7.1"
+  "packageManager": "pnpm@9.7.1",
+  "types": "./index.d.ts"
 }

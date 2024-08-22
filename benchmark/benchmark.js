@@ -19,8 +19,7 @@ fs.readdirSync(IMPLS_DIRECTORY)
   .sort()
   .forEach(async function (name) {
     var file = path.join(IMPLS_DIRECTORY, name);
-    var code = await import(file);
-
+    var code = await import(file + '/index.js');
     IMPLS_PATHS[name] = file;
     IMPLS.push({
       name: name,

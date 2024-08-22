@@ -34,5 +34,13 @@
   "formatter": {
     "indentWidth": 2,
     "indentStyle": "space"
-  }
+  },
+  "overrides": [
+    {
+      "include": ["./dist"],
+      "formatter": {
+        "enabled": false
+      }
+    }
+  ]
 }
