@@ -1,5 +1,3 @@
-
-
 /* eslint-disable max-len */
 
 import assert from 'assert';
@@ -55,12 +53,11 @@ const sample = {
   empty: '',
 
   // bool compat
-  yes: 'yes'
+  yes: 'yes',
 };
 
-
 describe('should format strings with specified quoting type', function () {
-  it('quotingType=\', forceQuotes=false', function () {
+  it("quotingType=', forceQuotes=false", function () {
     const expected = `
 simple_key: value
 foo'bar"baz: 1
@@ -93,11 +90,13 @@ empty: ''
 'yes': 'yes'
 `.replace(/^\n/, '');
 
-    assert.strictEqual(yaml.dump(sample, { quotingType: "'", forceQuotes: false }), expected);
+    assert.strictEqual(
+      yaml.dump(sample, { quotingType: "'", forceQuotes: false }),
+      expected,
+    );
   });
 
-
-  it('quotingType=\", forceQuotes=false', function () {
+  it('quotingType=", forceQuotes=false', function () {
     const expected = `
 simple_key: value
 foo'bar"baz: 1
@@ -130,11 +129,13 @@ empty: ""
 "yes": "yes"
 `.replace(/^\n/, '');
 
-    assert.strictEqual(yaml.dump(sample, { quotingType: '"', forceQuotes: false }), expected);
+    assert.strictEqual(
+      yaml.dump(sample, { quotingType: '"', forceQuotes: false }),
+      expected,
+    );
   });
 
-
-  it('quotingType=\', forceQuotes=true', function () {
+  it("quotingType=', forceQuotes=true", function () {
     const expected = `
 simple_key: 'value'
 foo'bar"baz: 1
@@ -160,11 +161,13 @@ empty: ''
 'yes': 'yes'
 `.replace(/^\n/, '');
 
-    assert.strictEqual(yaml.dump(sample, { quotingType: "'", forceQuotes: true }), expected);
+    assert.strictEqual(
+      yaml.dump(sample, { quotingType: "'", forceQuotes: true }),
+      expected,
+    );
   });
 
-
-  it('quotingType=\", forceQuotes=true', function () {
+  it('quotingType=", forceQuotes=true', function () {
     const expected = `
 simple_key: "value"
 foo'bar"baz: 1
@@ -190,6 +193,9 @@ empty: ""
 "yes": "yes"
 `.replace(/^\n/, '');
 
-    assert.strictEqual(yaml.dump(sample, { quotingType: '"', forceQuotes: true }), expected);
+    assert.strictEqual(
+      yaml.dump(sample, { quotingType: '"', forceQuotes: true }),
+      expected,
+    );
   });
 });

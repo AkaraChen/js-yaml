@@ -1,5 +1,3 @@
-
-
 export default {
   'Block style': [
     'Mercury',
@@ -10,7 +8,7 @@ export default {
     'Saturn',
     'Uranus',
     'Neptune',
-    'Pluto'
+    'Pluto',
   ],
   'Flow style': [
     'Mercury',
@@ -21,6 +19,6 @@ export default {
     'Saturn',
     'Uranus',
     'Neptune',
-    'Pluto'
-  ]
+    'Pluto',
+  ],
 };

@@ -1,16 +1,12 @@
-
-
-
 import assert from 'assert';
 import * as yaml from '../../index.js';
-
 
 it('Circular and cross references', function () {
   var source = {
     a: { a: 1 },
-    b: [ 1, 2 ],
+    b: [1, 2],
     c: {},
-    d: []
+    d: [],
   };
   source.crossObject = source.a;
   source.crossArray = source.b;

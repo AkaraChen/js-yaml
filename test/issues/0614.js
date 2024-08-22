@@ -1,18 +1,16 @@
-
-
 /* global BigInt */
-
 
 import assert from 'assert';
 
 import * as yaml from '../../index.js';
 
-
 it('Should allow int override', function () {
   let options = Object.assign({}, yaml.types.int.options);
 
-  options.construct = data => {
-    let value = data, sign = 1n, ch;
+  options.construct = (data) => {
+    let value = data,
+      sign = 1n,
+      ch;
 
     if (value.indexOf('_') !== -1) {
       value = value.replace(/_/g, '');
@@ -29,10 +27,9 @@ it('Should allow int override', function () {
     return sign * BigInt(value);
   };
 
-
   let BigIntType = new yaml.Type('tag:yaml.org,2002:int', options);
 
-  const SCHEMA = yaml.DEFAULT_SCHEMA.extend({ implicit: [ BigIntType ] });
+  const SCHEMA = yaml.DEFAULT_SCHEMA.extend({ implicit: [BigIntType] });
 
   const data = `
 int: -123_456_789
@@ -43,6 +40,6 @@ float: -12_345_678_901_234_567_890.1234
   assert.deepStrictEqual(yaml.load(data, { schema: SCHEMA }), {
     int: -123456789n,
     bigint: -12345678901234567890n,
-    float: -12345678901234567000 // precision loss expected
+    float: -12345678901234567000, // precision loss expected
   });
 });

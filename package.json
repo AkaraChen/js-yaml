@@ -2,12 +2,7 @@
   "name": "js-yaml",
   "version": "4.1.0",
   "description": "YAML 1.2 parser and serializer",
-  "keywords": [
-    "yaml",
-    "parser",
-    "serializer",
-    "pyyaml"
-  ],
+  "keywords": ["yaml", "parser", "serializer", "pyyaml"],
   "type": "module",
   "author": "Vladimir Zapparov <dervus.grim@gmail.com>",
   "contributors": [
@@ -17,11 +12,7 @@
   ],
   "license": "MIT",
   "repository": "nodeca/js-yaml",
-  "files": [
-    "index.js",
-    "lib/",
-    "dist/"
-  ],
+  "files": ["index.js", "lib/", "dist/"],
   "module": "./dist/js-yaml.mjs",
   "exports": {
     ".": {
@@ -37,11 +28,13 @@
     "demo": "npm run lint && node support/build_demo.js",
     "gh-demo": "npm run demo && gh-pages -d demo -f",
     "browserify": "rollup -c support/rollup.config.mjs",
-    "prepublishOnly": "npm run gh-demo"
+    "prepublishOnly": "npm run gh-demo",
+    "check": "biome check . --write"
   },
   "unpkg": "dist/js-yaml.min.js",
   "jsdelivr": "dist/js-yaml.min.js",
   "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",

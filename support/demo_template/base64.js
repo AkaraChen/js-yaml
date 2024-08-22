@@ -23,32 +23,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-
 // Based on original artworks of base64 encoder/decoder by [Mozilla][1]
 // [1]: http://lxr.mozilla.org/mozilla/source/extensions/xml-rpc/src/nsXmlRpcClient.js
-
-
-
 
 /* eslint-env browser */
 /* eslint-disable no-bitwise */
 
 function noop() {}
 
-var logger   = { warn: noop, error: noop },
-    padding  = '=',
-    chrTable = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' +
-               '0123456789+/',
-    binTable = [
-      -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-      -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-      -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63,
-      52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -1, -1, -1,  0, -1, -1,
-      -1,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14,
-      15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, -1,
-      -1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
-      41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1
-    ];
+var logger = { warn: noop, error: noop },
+  padding = '=',
+  chrTable =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' + '0123456789+/',
+  binTable = [
+    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+    -1, -1, -1, -1, -1, 62, -1, -1, -1, 63, 52, 53, 54, 55, 56, 57, 58, 59, 60,
+    61, -1, -1, -1, 0, -1, -1, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
+    14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, -1, -1, 26,
+    27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45,
+    46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1,
+  ];
 
 if (window.console) {
   logger = window.console;
@@ -59,7 +54,10 @@ if (window.console) {
 // internal helpers //////////////////////////////////////////////////////////
 
 function utf8Encode(str) {
-  var bytes = [], offset = 0, length, char;
+  var bytes = [],
+    offset = 0,
+    length,
+    char;
 
   str = encodeURI(str);
   length = str.length;
@@ -81,7 +79,12 @@ function utf8Encode(str) {
 }
 
 function utf8Decode(bytes) {
-  var chars = [], offset = 0, length = bytes.length, c1, c2, c3;
+  var chars = [],
+    offset = 0,
+    length = bytes.length,
+    c1,
+    c2,
+    c3;
 
   while (offset < length) {
     c1 = bytes[offset];
@@ -95,7 +98,9 @@ function utf8Decode(bytes) {
       chars.push(String.fromCharCode(((c1 & 31) << 6) | (c2 & 63)));
       offset += 2;
     } else {
-      chars.push(String.fromCharCode(((c1 & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63)));
+      chars.push(
+        String.fromCharCode(((c1 & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63)),
+      );
       offset += 3;
     }
   }
@@ -107,12 +112,12 @@ function utf8Decode(bytes) {
 
 function encode(str) {
   var result = '',
-      bytes = utf8Encode(str),
-      length = bytes.length,
-      i;
+    bytes = utf8Encode(str),
+    length = bytes.length,
+    i;
 
   // Convert every three bytes to 4 ascii characters.
-  for (i = 0; i < (length - 2); i += 3) {
+  for (i = 0; i < length - 2; i += 3) {
     result += chrTable[bytes[i] >> 2];
     result += chrTable[((bytes[i] & 0x03) << 4) + (bytes[i + 1] >> 4)];
     result += chrTable[((bytes[i + 1] & 0x0f) << 2) + (bytes[i + 2] >> 6)];
@@ -123,7 +128,7 @@ function encode(str) {
   if (length % 3) {
     i = length - (length % 3);
     result += chrTable[bytes[i] >> 2];
-    if ((length % 3) === 2) {
+    if (length % 3 === 2) {
       result += chrTable[((bytes[i] & 0x03) << 4) + (bytes[i + 1] >> 4)];
       result += chrTable[(bytes[i + 1] & 0x0f) << 2];
       result += padding;
@@ -137,15 +142,17 @@ function encode(str) {
 }
 
 function decode(data) {
-  var value, code, idx = 0,
-      bytes = [],
-      leftbits = 0, // number of bits decoded, but yet to be appended
-      leftdata = 0; // bits decoded, but yet to be appended
+  var value,
+    code,
+    idx = 0,
+    bytes = [],
+    leftbits = 0, // number of bits decoded, but yet to be appended
+    leftdata = 0; // bits decoded, but yet to be appended
 
   // Convert one by one.
   for (idx = 0; idx < data.length; idx += 1) {
     code = data.charCodeAt(idx);
-    value = binTable[code & 0x7F];
+    value = binTable[code & 0x7f];
 
     if (value === -1) {
       // Skip illegal characters and whitespace
@@ -160,7 +167,7 @@ function decode(data) {
         leftbits -= 8;
         // Append if not padding.
         if (padding !== data.charAt(idx)) {
-          bytes.push((leftdata >> leftbits) & 0xFF);
+          bytes.push((leftdata >> leftbits) & 0xff);
         }
         leftdata &= (1 << leftbits) - 1;
       }

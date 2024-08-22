@@ -1,5 +1,3 @@
-
-
 import assert from 'assert';
 
 var expected = {
@@ -7,17 +5,23 @@ var expected = {
   exponential: 685230.15,
   fixed: 685230.15,
   'negative infinity': Number.NEGATIVE_INFINITY,
-  'not a number': NaN
+  'not a number': NaN,
 };
 
 function testHandler(actual) {
   assert.strictEqual(Object.prototype.toString.call(actual), '[object Object]');
-  assert.strictEqual(Object.keys(actual).sort().join(','), Object.keys(expected).sort().join(','));
+  assert.strictEqual(
+    Object.keys(actual).sort().join(','),
+    Object.keys(expected).sort().join(','),
+  );
 
-  assert.strictEqual(actual['canonical'],         expected['canonical']);
-  assert.strictEqual(actual['exponential'],       expected['exponential']);
-  assert.strictEqual(actual['fixed'],             expected['fixed']);
-  assert.strictEqual(actual['negative infinity'], expected['negative infinity']);
+  assert.strictEqual(actual['canonical'], expected['canonical']);
+  assert.strictEqual(actual['exponential'], expected['exponential']);
+  assert.strictEqual(actual['fixed'], expected['fixed']);
+  assert.strictEqual(
+    actual['negative infinity'],
+    expected['negative infinity'],
+  );
 
   assert(Number.isNaN(actual['not a number']));
 }

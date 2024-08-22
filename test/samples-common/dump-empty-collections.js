@@ -1,7 +1,4 @@
-
-
-
 export default {
-  emptyArray:  [],
-  emptyObject: {}
+  emptyArray: [],
+  emptyObject: {},
 };

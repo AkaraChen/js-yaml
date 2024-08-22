@@ -1,15 +1,13 @@
-
-
 export default {
   'Block style': {
     Clark: 'Evans',
     Brian: 'Ingerson',
-    Oren: 'Ben-Kiki'
+    Oren: 'Ben-Kiki',
   },
   'Flow style': {
     Clark: 'Evans',
     Brian: 'Ingerson',
-    Oren: 'Ben-Kiki'
+    Oren: 'Ben-Kiki',
   },
-  'foo,bar': 'baz'
+  'foo,bar': 'baz',
 };

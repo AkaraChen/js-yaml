@@ -1,9 +1,5 @@
-
-
-
 import assert from 'assert';
 import * as yaml from '../../index.js';
-
 
 it('Timestamp parsing is one month off', function () {
   var data = yaml.load(`

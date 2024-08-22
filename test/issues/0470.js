@@ -1,17 +1,13 @@
-
-
-
 import assert from 'assert';
 import * as yaml from '../../index.js';
 
-
-it('Don\'t quote strings with : without need', function () {
+it("Don't quote strings with : without need", function () {
   var data = {
     // no quotes needed
     'http://example.com': 'http://example.com',
     // quotes required
     'foo: bar': 'foo: bar',
-    'foo:': 'foo:'
+    'foo:': 'foo:',
   };
 
   var expected = `

@@ -1,6 +1,1 @@
-
-
-export default [
-  "foo 'bar'",
-  "foo\n'bar'"
-];
+export default ["foo 'bar'", "foo\n'bar'"];

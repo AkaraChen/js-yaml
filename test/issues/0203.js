@@ -1,11 +1,7 @@
-
-
-
 import assert from 'assert';
 import * as yaml from '../../index.js';
 
-
-it('Don\'t throw on warning', function () {
+it("Don't throw on warning", function () {
   var src = `
 test: |-
 

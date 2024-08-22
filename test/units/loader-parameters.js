@@ -1,11 +1,9 @@
-
-
 import assert from 'assert';
 import * as yaml from '../../index.js';
 
 describe('loader parameters', function () {
   var testStr = 'test: 1 \ntest: 2';
-  var expected =  [ { test: 2 } ];
+  var expected = [{ test: 2 }];
   var result;
 
   it('loadAll(input, options)', function () {
@@ -13,9 +11,13 @@ describe('loader parameters', function () {
     assert.deepStrictEqual(result, expected);
 
     result = [];
-    yaml.loadAll(testStr, function (doc) {
-      result.push(doc);
-    }, { json: true });
+    yaml.loadAll(
+      testStr,
+      function (doc) {
+        result.push(doc);
+      },
+      { json: true },
+    );
     assert.deepStrictEqual(result, expected);
   });
 
@@ -24,9 +26,13 @@ describe('loader parameters', function () {
     assert.deepStrictEqual(result, expected);
 
     result = [];
-    yaml.loadAll(testStr, function (doc) {
-      result.push(doc);
-    }, { json: true });
+    yaml.loadAll(
+      testStr,
+      function (doc) {
+        result.push(doc);
+      },
+      { json: true },
+    );
     assert.deepStrictEqual(result, expected);
   });
 
@@ -35,9 +41,13 @@ describe('loader parameters', function () {
     assert.deepStrictEqual(result, expected);
 
     result = [];
-    yaml.loadAll(testStr, function (doc) {
-      result.push(doc);
-    }, { json: true });
+    yaml.loadAll(
+      testStr,
+      function (doc) {
+        result.push(doc);
+      },
+      { json: true },
+    );
     assert.deepStrictEqual(result, expected);
   });
 
@@ -46,9 +56,13 @@ describe('loader parameters', function () {
     assert.deepStrictEqual(result, expected);
 
     result = [];
-    yaml.loadAll(testStr, function (doc) {
-      result.push(doc);
-    }, { json: true });
+    yaml.loadAll(
+      testStr,
+      function (doc) {
+        result.push(doc);
+      },
+      { json: true },
+    );
     assert.deepStrictEqual(result, expected);
   });
 });

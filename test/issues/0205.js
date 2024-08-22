@@ -1,13 +1,9 @@
-
-
-
 import assert from 'assert';
 import * as yaml from '../../index.js';
 
-
 it('Duplicated objects within array', function () {
   var obj = { test: 'canary' };
-  var arrayWithRefs = [ obj, obj ];
+  var arrayWithRefs = [obj, obj];
 
   var obtained = yaml.load(yaml.dump(arrayWithRefs));
 
@@ -16,8 +12,8 @@ it('Duplicated objects within array', function () {
 });
 
 it('Duplicated arrays within array', function () {
-  var array = [ 0, 1 ];
-  var arrayWithRefs = [ array, array ];
+  var array = [0, 1];
+  var arrayWithRefs = [array, array];
 
   var obtained = yaml.load(yaml.dump(arrayWithRefs));
 

@@ -1,9 +1,5 @@
-
-
-
-import path from 'path';
 import fs from 'fs';
-
+import path from 'path';
 
 describe('Issues', function () {
   var issues = path.resolve(import.meta.dirname, 'issues');

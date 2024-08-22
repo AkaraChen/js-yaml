@@ -1,5 +1,3 @@
-
-
 import assert from 'assert';
 import * as yaml from '../../index.js';
 

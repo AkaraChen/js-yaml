@@ -1,25 +1,29 @@
-
-
-
 import assert from 'assert';
 import * as yaml from '../../index.js';
 
-
 describe('Resolving explicit tags on empty nodes', function () {
   it('!!binary', function () {
-    assert.throws(function () { yaml.load('!!binary'); }, yaml.YAMLException);
+    assert.throws(function () {
+      yaml.load('!!binary');
+    }, yaml.YAMLException);
   });
 
   it('!!bool', function () {
-    assert.throws(function () { yaml.load('!!bool'); }, yaml.YAMLException);
+    assert.throws(function () {
+      yaml.load('!!bool');
+    }, yaml.YAMLException);
   });
 
   it('!!float', function () {
-    assert.throws(function () { yaml.load('!!float'); }, yaml.YAMLException);
+    assert.throws(function () {
+      yaml.load('!!float');
+    }, yaml.YAMLException);
   });
 
   it('!!int', function () {
-    assert.throws(function () { yaml.load('!!int'); }, yaml.YAMLException);
+    assert.throws(function () {
+      yaml.load('!!int');
+    }, yaml.YAMLException);
   });
 
   it('!!map', function () {
@@ -27,7 +31,9 @@ describe('Resolving explicit tags on empty nodes', function () {
   });
 
   it('!!merge', function () {
-    assert.doesNotThrow(function () { yaml.load('? !!merge\n: []'); });
+    assert.doesNotThrow(function () {
+      yaml.load('? !!merge\n: []');
+    });
   });
 
   it('!!null', function () {
@@ -56,6 +62,8 @@ describe('Resolving explicit tags on empty nodes', function () {
   });
 
   it('!!timestamp', function () {
-    assert.throws(function () { yaml.load('!!timestamp'); }, yaml.YAMLException);
+    assert.throws(function () {
+      yaml.load('!!timestamp');
+    }, yaml.YAMLException);
   });
 });

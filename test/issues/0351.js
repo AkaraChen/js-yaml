@@ -1,9 +1,5 @@
-
-
-
 import assert from 'assert';
 import * as yaml from '../../index.js';
-
 
 it('should include the error message in the error stack', function () {
   try {
@@ -14,7 +10,11 @@ it('should include the error message in the error stack', function () {
 baz: qux
 `);
   } catch (err) {
-    assert(err.stack.startsWith('YAMLException: end of the stream or a document separator is expected'));
+    assert(
+      err.stack.startsWith(
+        'YAMLException: end of the stream or a document separator is expected',
+      ),
+    );
     return;
   }
   assert.fail(null, null, 'Expected an error to be thrown');

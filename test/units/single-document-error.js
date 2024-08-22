@@ -1,9 +1,5 @@
-
-
-
 import assert from 'assert';
 import * as yaml from '../../index.js';
-
 
 it('Loading multidocument source using `load` should cause an error', function () {
   assert.throws(function () {

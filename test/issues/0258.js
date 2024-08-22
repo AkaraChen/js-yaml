@@ -1,17 +1,13 @@
-
-
-
 import assert from 'assert';
 import * as yaml from '../../index.js';
-
 
 it('should shorthand tags with !! whenever possible', function () {
   let regexp = new yaml.Type('tag:yaml.org,2002:js/regexp', {
     kind: 'scalar',
     resolve: () => true,
-    construct: str => new RegExp(str),
+    construct: (str) => new RegExp(str),
     instanceOf: RegExp,
-    represent: object => object.source
+    represent: (object) => object.source,
   });
 
   let schema = yaml.DEFAULT_SCHEMA.extend(regexp);

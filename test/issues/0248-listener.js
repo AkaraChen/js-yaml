@@ -1,12 +1,10 @@
-
-
 import assert from 'assert';
 import * as yaml from '../../index.js';
 
 it('Listener informed on a very simple scalar.', function () {
   var history = [];
   function l(eventType, state) {
-    history.push([ eventType, state.position ]);
+    history.push([eventType, state.position]);
   }
 
   yaml.load('a_simple_scalar', { listener: l });
@@ -24,7 +22,7 @@ it('Listener informed on a very simple scalar.', function () {
 it('Listener informed on a map with a list.', function () {
   var history = [];
   function l(eventType, state) {
-    history.push([ eventType, state.position, state.result ]);
+    history.push([eventType, state.position, state.result]);
   }
 
   yaml.load('{ a: 1, b: [ 0, xyz ] }', { listener: l });
@@ -53,7 +51,7 @@ it('Listener informed on a map with a list.', function () {
   assert.strictEqual(history[++i][0], 'close');
 
   assert.strictEqual(history[++i][0], 'close'); // b value (list) end
-  assert.deepStrictEqual(history[i][2], [ 0, 'xyz' ]);
+  assert.deepStrictEqual(history[i][2], [0, 'xyz']);
 
   assert.strictEqual(history[++i][0], 'close'); // map end
   assert.strictEqual(history[++i][0], 'close'); // doc end

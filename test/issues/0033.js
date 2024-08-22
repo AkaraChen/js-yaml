@@ -1,9 +1,5 @@
-
-
-
 import assert from 'assert';
 import * as yaml from '../../index.js';
-
 
 it('refactor compact variant of MarkedYAMLError.toString', function () {
   var source = `

@@ -1,5 +1,3 @@
-
-
 export default {
-  string: 'abcd'
+  string: 'abcd',
 };

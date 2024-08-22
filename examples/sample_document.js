@@ -1,5 +1,3 @@
-
-
 /*eslint-disable no-console*/
 
 import fs from 'fs';
@@ -8,11 +6,10 @@ import path from 'path';
 import util from 'util';
 import * as yaml from '../index.js';
 
-
 try {
   var filename = path.join(import.meta.dirname, 'sample_document.yml'),
-      contents = fs.readFileSync(filename, 'utf8'),
-      data     = yaml.load(contents);
+    contents = fs.readFileSync(filename, 'utf8'),
+    data = yaml.load(contents);
 
   console.log(util.inspect(data, false, 10, true));
 } catch (err) {

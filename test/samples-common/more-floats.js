@@ -1,5 +1,3 @@
-
-
 import assert from 'assert';
 
 var expected = [
@@ -9,7 +7,7 @@ var expected = [
   Number.POSITIVE_INFINITY,
   Number.NEGATIVE_INFINITY,
   NaN,
-  NaN
+  NaN,
 ];
 
 function testHandler(actual) {

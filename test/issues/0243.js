@@ -1,17 +1,16 @@
-
-
-
 import assert from 'assert';
-import * as yaml from '../../index.js';
 import { readFileSync } from 'fs';
 import { createRequire } from 'module';
+import * as yaml from '../../index.js';
 
 const require = createRequire(import.meta.url);
 
-
 describe('Duplicated mapping key errors throw at beginning of key', function () {
   it('on top level', function () {
-    var src = readFileSync(require('path').join(import.meta.dirname, '/0243-basic.yml'), 'utf8');
+    var src = readFileSync(
+      require('path').join(import.meta.dirname, '/0243-basic.yml'),
+      'utf8',
+    );
     var lines = src.split('\n');
 
     try {
@@ -24,7 +23,10 @@ describe('Duplicated mapping key errors throw at beginning of key', function () 
   });
 
   it('inside of mapping values', function () {
-    var src = readFileSync(require('path').join(import.meta.dirname, '/0243-nested.yml'), 'utf8');
+    var src = readFileSync(
+      require('path').join(import.meta.dirname, '/0243-nested.yml'),
+      'utf8',
+    );
     var lines = src.split('\n');
 
     try {

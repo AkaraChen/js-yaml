@@ -1,20 +1,18 @@
-
-
 /*eslint-disable no-console*/
 
 import * as yaml from '../index.js';
 
 import object from './dumper.json';
 
-
-console.log(yaml.dump(object, {
-  flowLevel: 3,
-  styles: {
-    '!!int'  : 'hexadecimal',
-    '!!null' : 'camelcase'
-  }
-}));
-
+console.log(
+  yaml.dump(object, {
+    flowLevel: 3,
+    styles: {
+      '!!int': 'hexadecimal',
+      '!!null': 'camelcase',
+    },
+  }),
+);
 
 // Output:
 //==============================================================================

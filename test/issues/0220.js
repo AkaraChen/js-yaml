@@ -1,9 +1,5 @@
-
-
-
 import assert from 'assert';
 import * as yaml from '../../index.js';
-
 
 it('Float type dumper should not miss dot', function () {
   assert.strictEqual((5e-100).toString(10), '5e-100');

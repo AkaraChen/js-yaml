@@ -1,14 +1,8 @@
-
-
 export default {
   Bestiary: [
-    { aardvark : 'African pig-like ant eater. Ugly.'        },
-    { anteater : 'South-American ant eater. Two species.'   },
-    { anaconda : 'South-American constrictor snake. Scaly.' }
+    { aardvark: 'African pig-like ant eater. Ugly.' },
+    { anteater: 'South-American ant eater. Two species.' },
+    { anaconda: 'South-American constrictor snake. Scaly.' },
   ],
-  Numbers: [
-    { one   : 1 },
-    { two   : 2 },
-    { three : 3 }
-  ]
+  Numbers: [{ one: 1 }, { two: 2 }, { three: 3 }],
 };

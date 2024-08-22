@@ -1,5 +1,3 @@
-
-
 export default [
   { x: 1, y: 2 },
   { x: 0, y: 2 },
@@ -8,5 +6,5 @@ export default [
   { x: 1, y: 2, r: 10, label: 'center/big' },
   { x: 1, y: 2, r: 10, label: 'center/big' },
   { x: 1, y: 2, r: 10, label: 'center/big' },
-  { x: 1, y: 2, r: 10, label: 'center/big' }
+  { x: 1, y: 2, r: 10, label: 'center/big' },
 ];

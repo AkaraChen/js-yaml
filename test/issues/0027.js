@@ -1,9 +1,5 @@
-
-
-
 import assert from 'assert';
 import * as yaml from '../../index.js';
-
 
 describe('Should load numbers in YAML 1.2 format', function () {
   it('should not parse base60', function () {
@@ -30,19 +26,31 @@ describe('Should load numbers in YAML 1.2 format', function () {
   });
 });
 
-
 describe('Should dump numbers in YAML 1.2 format', function () {
   it('should dump in different styles', function () {
-    assert.strictEqual(yaml.dump(123, { styles: { '!!int': 'binary' } }), '0b1111011\n');
-    assert.strictEqual(yaml.dump(123, { styles: { '!!int': 'octal' } }), '0o173\n');
-    assert.strictEqual(yaml.dump(123, { styles: { '!!int': 'hex' } }), '0x7B\n');
+    assert.strictEqual(
+      yaml.dump(123, { styles: { '!!int': 'binary' } }),
+      '0b1111011\n',
+    );
+    assert.strictEqual(
+      yaml.dump(123, { styles: { '!!int': 'octal' } }),
+      '0o173\n',
+    );
+    assert.strictEqual(
+      yaml.dump(123, { styles: { '!!int': 'hex' } }),
+      '0x7B\n',
+    );
   });
 
   it('should quote all potential numbers', function () {
-    var tests = '1:23 1:23.45 01234 0999 -01234 01234e4 01234.56 -01234.56 0x123 0o123';
+    var tests =
+      '1:23 1:23.45 01234 0999 -01234 01234e4 01234.56 -01234.56 0x123 0o123';
 
     tests.split(' ').forEach(function (sample) {
-      assert.strictEqual(yaml.dump(sample, { noCompatMode: false }), "'" + sample + "'\n");
+      assert.strictEqual(
+        yaml.dump(sample, { noCompatMode: false }),
+        "'" + sample + "'\n",
+      );
     });
   });
 
@@ -50,7 +58,10 @@ describe('Should dump numbers in YAML 1.2 format', function () {
     var tests = '1:23 1:23.45';
 
     tests.split(' ').forEach(function (sample) {
-      assert.strictEqual(yaml.dump(sample, { noCompatMode: true }), sample + '\n');
+      assert.strictEqual(
+        yaml.dump(sample, { noCompatMode: true }),
+        sample + '\n',
+      );
     });
   });
 });

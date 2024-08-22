@@ -1,8 +1,6 @@
 // This example overrides built-in !!int type to return BigInt instead of a Number
 //
 
-
-
 /*global BigInt*/
 /*eslint-disable no-console*/
 
@@ -10,12 +8,13 @@ import util from 'util';
 
 import * as yaml from '../index.js';
 
-
 // keep most of the original `int` options as is
 let options = Object.assign({}, yaml.types.int.options);
 
-options.construct = data => {
-  let value = data, sign = 1n, ch;
+options.construct = (data) => {
+  let value = data,
+    sign = 1n,
+    ch;
 
   if (value.indexOf('_') !== -1) {
     value = value.replace(/_/g, '');
@@ -32,16 +31,16 @@ options.construct = data => {
   return sign * BigInt(value);
 };
 
-
-options.predicate = object => {
-  return Object.prototype.toString.call(object) === '[object BigInt]' ||
-         yaml.types.int.options.predicate(object);
+options.predicate = (object) => {
+  return (
+    Object.prototype.toString.call(object) === '[object BigInt]' ||
+    yaml.types.int.options.predicate(object)
+  );
 };
-
 
 let BigIntType = new yaml.Type('tag:yaml.org,2002:int', options);
 
-const SCHEMA = yaml.DEFAULT_SCHEMA.extend({ implicit: [ BigIntType ] });
+const SCHEMA = yaml.DEFAULT_SCHEMA.extend({ implicit: [BigIntType] });
 
 const data = `
 bigint: -12_345_678_901_234_567_890

@@ -1,11 +1,8 @@
-
-
 /*eslint-disable no-console*/
 
 import util from 'util';
 
 import * as yaml from '../index.js';
-
 
 class CustomTag {
   constructor(type, data) {
@@ -14,8 +11,7 @@ class CustomTag {
   }
 }
 
-
-const tags = [ 'scalar', 'sequence', 'mapping' ].map(function (kind) {
+const tags = ['scalar', 'sequence', 'mapping'].map(function (kind) {
   // first argument here is a prefix, so this type will handle anything starting with !
   return new yaml.Type('!', {
     kind: kind,
@@ -29,7 +25,7 @@ const tags = [ 'scalar', 'sequence', 'mapping' ].map(function (kind) {
     instanceOf: CustomTag,
     construct: function (data, type) {
       return new CustomTag(type, data);
-    }
+    },
   });
 });
 
